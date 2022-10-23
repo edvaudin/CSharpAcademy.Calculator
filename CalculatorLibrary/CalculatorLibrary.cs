@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using CalculatorLibrary;
 
 namespace CalculatorProgram
 {
@@ -8,6 +9,7 @@ namespace CalculatorProgram
     {
         JsonWriter writer;
         public int CalculationsCompleted { get; private set; }
+        public List<Calculation> CalculationHistory { get; private set; }
         public Calculator()
         {
             StreamWriter logFile = File.CreateText("calculatorlog.json");
@@ -17,6 +19,7 @@ namespace CalculatorProgram
             writer.WriteStartObject();
             writer.WritePropertyName("Operations");
             writer.WriteStartArray();
+            CalculationHistory = new List<Calculation>();
         }
 
         public double DoOperation(double num1, double num2, string op)
@@ -60,6 +63,7 @@ namespace CalculatorProgram
             writer.WriteEndObject();
 
             CalculationsCompleted++;
+            CalculationHistory.Add(new Calculation(num1, num2, result, op));
             return result;
         }
 

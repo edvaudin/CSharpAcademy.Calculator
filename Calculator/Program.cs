@@ -1,4 +1,6 @@
-﻿namespace CalculatorProgram
+﻿using CalculatorLibrary;
+
+namespace CalculatorProgram
 {
     class Program
     {
@@ -26,6 +28,8 @@
                 PrintResult(result);
 
                 DisplayCalculatorUsage(calculator);
+
+                DisplayHistory(calculator);
 
                 DisplayFooter();
 
@@ -63,9 +67,20 @@
             return result;
         }
 
+        private static void DisplayHistory(Calculator calculator)
+        {
+            Console.WriteLine("--------History---------\n");
+            string history = string.Empty;
+            foreach (Calculation calc in calculator.CalculationHistory)
+            {
+                history += calc.ToString();
+            }
+            Console.WriteLine(history);
+        }
+
         private static void DisplayFooter()
         {
-            Console.WriteLine("------------------------\n");
+            Console.WriteLine("-----------------------\n");
             Console.Write("Press 'n' and Enter to close the app, or press any other key and Enter to continue: ");
             Console.WriteLine("\n");
         }
