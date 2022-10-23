@@ -22,7 +22,10 @@
 
                 string op = ValidateOperatorInput();
 
-                double result = GetResult(calculator, cleanNum1, cleanNum2, op);
+                double result = CalculateResult(calculator, cleanNum1, cleanNum2, op);
+                PrintResult(result);
+
+                DisplayCalculatorUsage(calculator);
 
                 DisplayFooter();
 
@@ -32,23 +35,31 @@
             return;
         }
 
-        private static double GetResult(Calculator calculator, double cleanNum1, double cleanNum2, string op)
+        private static void DisplayCalculatorUsage(Calculator calculator)
+        {
+            Console.Write($"This calculator has been used {calculator.CalculationsCompleted} times.\n");
+        }
+
+        private static void PrintResult(double result)
+        {
+            if (double.IsNaN(result))
+            {
+                Console.WriteLine("This operation will result in a mathematical error.\n");
+            }
+            else Console.WriteLine("Your result: {0:0.##}\n", result);
+        }
+
+        private static double CalculateResult(Calculator calculator, double cleanNum1, double cleanNum2, string op)
         {
             double result = 0;
             try
             {
                 result = calculator.DoOperation(cleanNum1, cleanNum2, op);
-                if (double.IsNaN(result))
-                {
-                    Console.WriteLine("This operation will result in a mathematical error.\n");
-                }
-                else Console.WriteLine("Your result: {0:0.##}\n", result);
             }
             catch (Exception e)
             {
                 Console.WriteLine("Oh no! An exception occurred trying to do the math.\n - Details: " + e.Message);
             }
-
             return result;
         }
 
