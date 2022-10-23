@@ -6,7 +6,7 @@ namespace CalculatorProgram
 {
     public class Calculator
     {
-
+        
         JsonWriter writer;
         public Calculator()
         {
