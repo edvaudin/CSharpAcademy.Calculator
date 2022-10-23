@@ -31,12 +31,32 @@ namespace CalculatorProgram
 
                 DisplayHistory(calculator);
 
-                DisplayFooter();
+                DisplayCleanupOptions();
 
-                endApp = Console.ReadLine() == "n";
+                endApp = ProcessCleanup(endApp, calculator);
+
             }
             calculator.Finish();
             return;
+        }
+
+        // This seems to be an ugly solution. Where can I put the endApp bool?
+        private static bool ProcessCleanup(bool endApp, Calculator calculator)
+        {
+            string selection = Console.ReadLine();
+            switch (selection)
+            {
+                case "n":
+                    endApp = true;
+                    break;
+                case "c":
+                    calculator.ClearHistory();
+                    break;
+                default:
+                    break;
+            }
+
+            return endApp;
         }
 
         private static void DisplayCalculatorUsage(Calculator calculator)
@@ -80,9 +100,7 @@ namespace CalculatorProgram
 
         private static void DisplayFooter()
         {
-            Console.WriteLine("-----------------------\n");
-            Console.Write("Press 'n' and Enter to close the app, or press any other key and Enter to continue: ");
-            Console.WriteLine("\n");
+            
         }
 
         private static void DisplayOperatorOptions()
@@ -92,6 +110,16 @@ namespace CalculatorProgram
             Console.WriteLine("\ts - Subtract");
             Console.WriteLine("\tm - Multiply");
             Console.WriteLine("\td - Divide");
+            Console.Write("Your option? ");
+        }
+
+        private static void DisplayCleanupOptions()
+        {
+            Console.WriteLine("-----------------------\n");
+            Console.WriteLine("What would you like to do next?:");
+            Console.WriteLine("\tn - Exit");
+            Console.WriteLine("\tc - Clear History");
+            Console.WriteLine("\tOther - Continue calculating!");
             Console.Write("Your option? ");
         }
 

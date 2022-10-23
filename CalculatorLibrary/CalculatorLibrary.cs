@@ -67,6 +67,11 @@ namespace CalculatorProgram
             return result;
         }
 
+        public void ClearHistory()
+        {
+            CalculationHistory.Clear();
+        }
+
         public void Finish()
         {
             writer.WriteEndArray();
