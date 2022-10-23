@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Calculator
+﻿namespace CalculatorProgram
 {
-    class Calculator
+    public class Calculator
     {
         public static double DoOperation(double num1, double num2, string op)
         {

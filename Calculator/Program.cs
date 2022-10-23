@@ -1,4 +1,4 @@
-﻿namespace Calculator
+﻿namespace CalculatorProgram
 {
     class Program
     {
@@ -74,3 +74,5 @@
         }
     }
 }
+
+
