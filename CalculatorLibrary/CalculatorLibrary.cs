@@ -9,7 +9,7 @@ namespace CalculatorProgram
     {
         JsonWriter writer;
         public int CalculationsCompleted { get; private set; }
-        public List<Calculation> CalculationMemory { get; private set; }
+        public List<MemoryCalculation> CalculationMemory { get; private set; }
         public Calculator()
         {
             StreamWriter logFile = File.CreateText("calculatorlog.json");
@@ -19,7 +19,7 @@ namespace CalculatorProgram
             writer.WriteStartObject();
             writer.WritePropertyName("Operations");
             writer.WriteStartArray();
-            CalculationMemory = new List<Calculation>();
+            CalculationMemory = new List<MemoryCalculation>();
         }
 
         public double DoOperation(double num1, double num2, string op)
@@ -47,12 +47,15 @@ namespace CalculatorProgram
                     writer.WriteValue("Multiply");
                     break;
                 case "d":
-                    // Ask the user to enter a non-zero divisor.
                     if (num2 != 0)
                     {
                         result = num1 / num2;
                     }
                     writer.WriteValue("Divide");
+                    break;
+                case "p":
+                    result = Math.Pow(num1, num2);
+                    writer.WriteValue("Power");
                     break;
                 // Return text for an incorrect option entry.
                 default:
@@ -65,7 +68,7 @@ namespace CalculatorProgram
             CalculationsCompleted++;
             if (!double.IsNaN(result)) 
             {
-                CalculationMemory.Add(new Calculation(num1, num2, result, op));
+                CalculationMemory.Add(new MemoryCalculation(num1, num2, result, op));
             }
             return result;
         }

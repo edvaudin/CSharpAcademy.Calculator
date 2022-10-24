@@ -93,7 +93,7 @@ namespace CalculatorProgram
             Console.WriteLine("---------Memory--------\n");
             string memory = string.Empty;
             int i = 0;
-            foreach (Calculation calc in calculator.CalculationMemory)
+            foreach (MemoryCalculation calc in calculator.CalculationMemory)
             {
                 memory += $"{i}: {calc}";
                 i++;
@@ -109,6 +109,7 @@ namespace CalculatorProgram
             Console.WriteLine("\ts - Subtract");
             Console.WriteLine("\tm - Multiply");
             Console.WriteLine("\td - Divide");
+            Console.WriteLine("\tp - Power");
             Console.Write("Your option? ");
         }
 
@@ -135,7 +136,7 @@ namespace CalculatorProgram
 
         private static bool IsValidOperator(string op)
         {
-            string[] validOperators = { "a", "s", "m", "d" };
+            string[] validOperators = { "a", "s", "m", "d", "p" };
             foreach (string validOp in validOperators)
             {
                 if (op == validOp)
