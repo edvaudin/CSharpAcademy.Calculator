@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace CalculatorLibrary
 {
-    public class MemoryCalculation
+    public class Calculation
     {
-        double num1 = 0;
-        double num2 = 0;
-        public double Result { get; private set; } = 0;
-        string op = "";
+        protected double num1 = 0;
+        protected double num2 = 0;
+        public double Result { get; protected set; } = 0;
+        protected string op = "";
 
-        public MemoryCalculation(double num1, double num2, double result, string op)
+        public Calculation(double num1, double num2, double result, string op)
         {
             this.num1 = num1;
             this.num2 = num2;

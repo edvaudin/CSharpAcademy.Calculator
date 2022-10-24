@@ -9,7 +9,7 @@ namespace CalculatorProgram
     {
         JsonWriter writer;
         public int CalculationsCompleted { get; private set; }
-        public List<MemoryCalculation> CalculationMemory { get; private set; }
+        public List<Calculation> CalculationMemory { get; private set; }
         public Calculator()
         {
             StreamWriter logFile = File.CreateText("calculatorlog.json");
@@ -19,7 +19,7 @@ namespace CalculatorProgram
             writer.WriteStartObject();
             writer.WritePropertyName("Operations");
             writer.WriteStartArray();
-            CalculationMemory = new List<MemoryCalculation>();
+            CalculationMemory = new List<Calculation>();
         }
 
         public double DoOperation(double num1, double num2, string op)
@@ -31,19 +31,22 @@ namespace CalculatorProgram
             writer.WritePropertyName("Operand2");
             writer.WriteValue(num2);
             writer.WritePropertyName("Operation");
-            // Use a switch statement to do the math.
+
             switch (op)
             {
                 case "a":
                     result = num1 + num2;
+                    StoreCalculation(num1, num2, op, result);
                     writer.WriteValue("Add");
                     break;
                 case "s":
                     result = num1 - num2;
+                    StoreCalculation(num1, num2, op, result);
                     writer.WriteValue("Subtract");
                     break;
                 case "m":
                     result = num1 * num2;
+                    StoreCalculation(num1, num2, op, result);
                     writer.WriteValue("Multiply");
                     break;
                 case "d":
@@ -51,11 +54,28 @@ namespace CalculatorProgram
                     {
                         result = num1 / num2;
                     }
+                    StoreCalculation(num1, num2, op, result);
                     writer.WriteValue("Divide");
                     break;
                 case "p":
                     result = Math.Pow(num1, num2);
+                    StoreCalculation(num1, num2, op, result);
                     writer.WriteValue("Power");
+                    break;
+                case "sin":
+                    result = Math.Sin(num1);
+                    StoreTrigCalculation(num1, num2, op, result);
+                    writer.WriteValue("Sine");
+                    break;
+                case "cos":
+                    result = Math.Cos(num1);
+                    StoreTrigCalculation(num1, num2, op, result);
+                    writer.WriteValue("Cosine");
+                    break;
+                case "tan":
+                    result = Math.Tan(num1);
+                    StoreTrigCalculation(num1, num2, op, result);
+                    writer.WriteValue("Tangent");
                     break;
                 // Return text for an incorrect option entry.
                 default:
@@ -66,11 +86,24 @@ namespace CalculatorProgram
             writer.WriteEndObject();
 
             CalculationsCompleted++;
-            if (!double.IsNaN(result)) 
-            {
-                CalculationMemory.Add(new MemoryCalculation(num1, num2, result, op));
-            }
+            
             return result;
+        }
+
+        private void StoreCalculation(double num1, double num2, string op, double result)
+        {
+            if (!double.IsNaN(result))
+            {
+                CalculationMemory.Add(new Calculation(num1, num2, result, op));
+            }
+        }
+
+        private void StoreTrigCalculation(double num1, double num2, string op, double result)
+        {
+            if (!double.IsNaN(result))
+            {
+                CalculationMemory.Add(new TrigCalculation(num1, num2, result, op));
+            }
         }
 
         public void ClearHistory()
