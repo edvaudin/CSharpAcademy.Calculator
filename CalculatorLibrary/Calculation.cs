@@ -10,20 +10,20 @@ namespace CalculatorLibrary
     {
         double num1 = 0;
         double num2 = 0;
-        double result = 0;
+        public double Result { get; private set; } = 0;
         string op = "";
 
         public Calculation(double num1, double num2, double result, string op)
         {
             this.num1 = num1;
             this.num2 = num2;
-            this.result = result;
+            this.Result = result;
             this.op = PrettifyOperator(op);
         }
 
         public override string ToString()
         {
-            return $"{num1} {op} {num2} = {result}\n";
+            return $"{num1} {op} {num2} = {Result}\n";
         }
 
         private static string PrettifyOperator(string op)

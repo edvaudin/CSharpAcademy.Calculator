@@ -1,4 +1,5 @@
 ﻿using CalculatorLibrary;
+using System.Text.RegularExpressions;
 
 namespace CalculatorProgram
 {
@@ -15,10 +16,10 @@ namespace CalculatorProgram
             while (!endApp)
             {
                 Console.Write("Type a number, and then press Enter: ");
-                double cleanNum1 = ValidateNumberInput();
+                double cleanNum1 = ValidateNumberInput(calculator);
 
                 Console.Write("Type another number, and then press Enter: ");
-                double cleanNum2 = ValidateNumberInput();
+                double cleanNum2 = ValidateNumberInput(calculator);
 
                 DisplayOperatorOptions();
 
@@ -29,7 +30,7 @@ namespace CalculatorProgram
 
                 DisplayCalculatorUsage(calculator);
 
-                DisplayHistory(calculator);
+                DisplayMemory(calculator);
 
                 DisplayCleanupOptions();
 
@@ -87,20 +88,18 @@ namespace CalculatorProgram
             return result;
         }
 
-        private static void DisplayHistory(Calculator calculator)
+        private static void DisplayMemory(Calculator calculator)
         {
-            Console.WriteLine("--------History---------\n");
-            string history = string.Empty;
-            foreach (Calculation calc in calculator.CalculationHistory)
+            Console.WriteLine("---------Memory--------\n");
+            string memory = string.Empty;
+            int i = 0;
+            foreach (Calculation calc in calculator.CalculationMemory)
             {
-                history += calc.ToString();
+                memory += $"{i}: {calc}";
+                i++;
             }
-            Console.WriteLine(history);
-        }
-
-        private static void DisplayFooter()
-        {
-            
+            Console.WriteLine(memory);
+            Console.WriteLine("To reference memory in your input type 'M' followed by the memory reference (e.g. M2)");
         }
 
         private static void DisplayOperatorOptions()
@@ -147,13 +146,29 @@ namespace CalculatorProgram
             return false;
         }
 
-        private static double ValidateNumberInput()
+        private static double ValidateNumberInput(Calculator calculator)
         {
             string numInput = Console.ReadLine();
             double cleanNum;
             while (!double.TryParse(numInput, out cleanNum))
             {
-                Console.Write("This is not valid input. Please enter an integer value: ");
+                if (numInput.StartsWith('M') && int.TryParse(numInput.Substring(1), out int memoryReference))
+                {
+                    if (memoryReference < calculator.CalculationMemory.Count)
+                    {
+                        cleanNum = calculator.CalculationMemory[memoryReference].Result;
+                        break;
+                    }
+                    else
+                    {
+                        Console.Write("Invalid memory reference detected. Please enter a number or memory reference: ");
+                    }
+                }
+                else
+                {
+                    Console.Write("This is not valid input. Please enter a number or memory reference: ");
+                }
+                
                 numInput = Console.ReadLine();
             }
             return cleanNum;
